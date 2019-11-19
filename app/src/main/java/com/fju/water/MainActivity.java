@@ -1,5 +1,6 @@
 package com.fju.water;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -17,7 +18,7 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Override
+   /* @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -79,7 +80,81 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
+*/
+   private EditText edNext;
+    private EditText edMonthly;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+        edMonthly = findViewById(R.id.month);
+        edNext = findViewById(R.id.next);
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fee();
+            }
+        });
+    }
+
+    public void fee() {
+        String monthString = edMonthly.getText().toString();
+        if (!TextUtils.isEmpty(monthString)) {
+            float degree = Float.parseFloat(monthString);
+            float fee = 0;
+            if (degree >= 1 && degree <=10) {
+                fee = degree*7.35f;
+            } else if (degree >= 11 && degree <=30) {
+                fee = degree * 9.45f - 21;
+            } else if (degree >= 31 && degree <=50) {
+                fee = degree * 11.55f - 84;
+            } else {
+                fee = degree * 12.075f - 110.5f;
+            }
+            Intent intent = new Intent(this, resultActivity.class);
+            startActivity(intent);
+//            new AlertDialog.Builder(this)
+//                    .setTitle("month"
+//                    .setMessage("Fee: " + fee)
+//                    .setPositiveButton("OK", null)
+//                    .show();
+        } else {
+            String nextString = edNext.getText().toString();
+            if (!TextUtils.isEmpty(nextString)) {
+                float degree = Float.parseFloat(nextString);
+                float fee = 0;
+                if (degree >= 1 && degree <=10) {
+                    fee = degree*7.35f;
+                } else if (degree >= 21 && degree <=60) {
+                    fee = degree * 9.45f - 42;
+                } else if (degree >= 61 && degree <=100) {
+                    fee = degree * 11.55f - 168;
+                } else {
+                    fee = degree * 12.075f - 220.5f;
+                }
+//                new AlertDialog.Builder(this)
+//                        .setTitle("next")
+//                        .setMessage("Fee: " + fee)
+//                        .setPositiveButton("OK", null)
+//                        .show();
+
+            }
+        }
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
